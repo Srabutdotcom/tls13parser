@@ -554,7 +554,6 @@ function Certificate(value, length) {
   return {
     certificate_request_context,
     certificate_list
-    //FIXME - 
   };
 }
 function CertificateEntry(value, length) {

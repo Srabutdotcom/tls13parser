@@ -273,7 +273,7 @@ var namedGroup = Object.freeze({
    /*0xFFFF-16 bytes-max*/
 })
 
-export var SignatureScheme = {
+export var SignatureScheme = Object.freeze({
    /* RSASSA-PKCS1-v1_5 algorithms */
    0x0401: "rsa_pkcs1_sha256",
    0x0501: "rsa_pkcs1_sha384",
@@ -302,4 +302,4 @@ export var SignatureScheme = {
    0x0201: "rsa_pkcs1_sha1",
    0x0203: "ecdsa_sha1",
    /*0xFFFF - 16 bytes - max*/
-}
+})

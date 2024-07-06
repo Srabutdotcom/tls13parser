@@ -57,4 +57,4 @@ var descriptions = {
    /*255*/
 }
 
-var levels = { 1: 'warning', 2: 'fatal' /*255*/ }
+var levels = Object.freeze({ 1: 'warning', 2: 'fatal' /*255*/ })
