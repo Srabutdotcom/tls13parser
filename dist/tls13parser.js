@@ -33,7 +33,7 @@ function getUint32(data, pos) {
 var Uint8View = class extends Uint8Array {
   #pos = 0;
   constructor(uint8Array) {
-    super(uint8Array.buffer);
+    super(uint8Array);
   }
   uint8() {
     const out = getUint8(this, this.#pos);
@@ -339,7 +339,7 @@ var namedGroup = Object.freeze({
   260: "ffdhe8192"
   /*0xFFFF-16 bytes-max*/
 });
-var SignatureScheme = {
+var SignatureScheme = Object.freeze({
   /* RSASSA-PKCS1-v1_5 algorithms */
   1025: "rsa_pkcs1_sha256",
   1281: "rsa_pkcs1_sha384",
@@ -363,7 +363,7 @@ var SignatureScheme = {
   513: "rsa_pkcs1_sha1",
   515: "ecdsa_sha1"
   /*0xFFFF - 16 bytes - max*/
-};
+});
 
 // src/extension.js
 var dec2 = new TextDecoder();
@@ -411,9 +411,11 @@ function Handshake(_value, length) {
     throw TypeError(`Unexpected type of record value ${typeCode}`);
   }
   const payloadLength = value.uint24();
+  const handshake = Uint8Array.from(value).slice(value.pos, value.pos + payloadLength);
   return {
     length: payloadLength,
-    [typeFunc.name]: typeFunc(value, payloadLength)
+    [typeFunc.name]: typeFunc(value, payloadLength),
+    handshake
   };
 }
 var cipherEnums = Object.freeze({
@@ -554,6 +556,7 @@ function Certificate(value, length) {
   return {
     certificate_request_context,
     certificate_list
+    //FIXME - 
   };
 }
 function CertificateEntry(value, length) {
@@ -639,11 +642,11 @@ var descriptions = {
   120: "no_application_protocol"
   /*255*/
 };
-var levels = {
+var levels = Object.freeze({
   1: "warning",
   2: "fatal"
   /*255*/
-};
+});
 
 // src/heartbeat.js
 function Heartbeat(value, length) {
@@ -672,7 +675,7 @@ var Record = class {
   // TLSPlainText
   #value;
   constructor(value) {
-    this.#value = new Uint8View(value);
+    this.#value = ensureUint8View(value);
     const typeCode = this.#value.uint8();
     this.type = records[typeCode]?.name;
     if (!this.type)
@@ -680,9 +683,9 @@ var Record = class {
     this.version = this.#value.uint16();
     this.version = `${uinToHex(this.version, 4)}-TLS 1.x (legacy record version)`;
     this.length = this.#value.uint16();
-    this[this.type] = records[typeCode](this.#value, this.length);
+    this[this.type] = records[typeCode](this.value, this.length);
   }
-  value() {
+  get value() {
     return this.#value;
   }
 };
@@ -709,7 +712,19 @@ var records = Object.freeze({
   24: Heartbeat
   /* 255: 'Default' */
 });
+function Records(value) {
+  let records2 = [];
+  while (true) {
+    const record = new Record(value);
+    records2.push(record);
+    if (record.value.pos >= record.value.length)
+      break;
+    value = record.value;
+  }
+  return records2;
+}
 export {
   Handshake,
-  Record
+  Record,
+  Records
 };

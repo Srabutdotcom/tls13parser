@@ -52,7 +52,7 @@ export function getUint32(data, pos) {
 export class Uint8View extends Uint8Array {
    #pos = 0;
    constructor(uint8Array) {
-      super(uint8Array.buffer);
+      super(uint8Array);
    }
    uint8() {
       const out = getUint8(this, this.#pos);
