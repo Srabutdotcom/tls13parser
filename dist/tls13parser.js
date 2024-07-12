@@ -718,12 +718,13 @@ var records = Object.freeze({
 });
 function Records(value) {
   let records2 = [];
+  let _value = value;
   while (true) {
-    const record = new Record(value);
+    const record = new Record(_value);
     records2.push(record);
-    if (record.value.pos >= record.value.length)
+    if (record.value.pos >= value.length)
       break;
-    value = record.value;
+    _value = record.value;
   }
   return records2;
 }
