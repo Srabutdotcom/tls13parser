@@ -20,7 +20,7 @@ export class Record { // TLSPlainText
       //this.record = new this.type(this.#value, this.length);
    }
    get value() { return this.#value }
-   get header() { return Uint8Array.from(this.value).slice(this.pos, 5) }
+   get header() { return Uint8Array.from(this.value).slice(this.pos,this.pos+ 5) }
 }
 
 function Invalid(value, length) {
