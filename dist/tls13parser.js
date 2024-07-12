@@ -690,7 +690,7 @@ var Record = class {
     return this.#value;
   }
   get header() {
-    return new Uint8Array.from(this.value).slice(this.pos, 5);
+    return Uint8Array.from(this.value).slice(this.pos, 5);
   }
 };
 function Invalid(value, length) {
