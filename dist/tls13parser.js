@@ -411,11 +411,9 @@ function Handshake(_value, length) {
     throw TypeError(`Unexpected type of record value ${typeCode}`);
   }
   const payloadLength = value.uint24();
-  const handshake = Uint8Array.from(value).slice(value.pos, value.pos + payloadLength);
   return {
     length: payloadLength,
-    [typeFunc.name]: typeFunc(value, payloadLength),
-    handshake
+    [typeFunc.name]: typeFunc(value, payloadLength)
   };
 }
 var cipherEnums = Object.freeze({
@@ -691,6 +689,9 @@ var Record = class {
   }
   get header() {
     return Uint8Array.from(this.value).slice(this.pos, this.pos + 5);
+  }
+  get message() {
+    return Uint8Array.from(this.value).slice(this.pos + 5, this.pos + 5 + this.length);
   }
 };
 function Invalid(value, length) {

@@ -25,11 +25,9 @@ export function Handshake(_value, length) {
       throw TypeError(`Unexpected type of record value ${typeCode}`);
    }
    const payloadLength = value.uint24(); // 24 bytes
-   const handshake = Uint8Array.from(value).slice(value.pos, value.pos + payloadLength)
    return {
       length: payloadLength,
       [typeFunc.name]: typeFunc(value, payloadLength),
-      handshake
    }
    //this[this.type] = clientHello(value, this.payloadLength) 
 }
