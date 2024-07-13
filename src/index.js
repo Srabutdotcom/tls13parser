@@ -83,12 +83,12 @@ var records = Object.freeze({//this.prototype.ContentTypes = {
 
 export function Records(value) {
    let records = []
-   let _value = value
+   let _value = value.slice();
    while (true) {
       const record = new Record(_value);
       records.push(record);
       if (record.value.pos >= value.length) break
-      _value = record.value;
+      _value = record.value.slice();
    }
    return records;
 }
