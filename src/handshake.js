@@ -150,9 +150,10 @@ export function ClientHello(value, length) {
       const end = value.pos + length;
       while (true) {
          const code = value.uint16();
-         const desc = cipherEnums[code];
+         //const desc = cipherEnums[code];
          ciphers.push(
-            `${uinToHex(code, 4)}-${desc}`,
+            code
+            //`${uinToHex(code, 4)}-${desc}`,
          );
          if (value.pos >= end) break;
       }

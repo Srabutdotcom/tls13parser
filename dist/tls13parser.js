@@ -505,9 +505,9 @@ function ClientHello(value, length) {
     const end = value2.pos + length2;
     while (true) {
       const code = value2.uint16();
-      const desc = cipherEnums[code];
       ciphers.push(
-        `${uinToHex(code, 4)}-${desc}`
+        code
+        //`${uinToHex(code, 4)}-${desc}`,
       );
       if (value2.pos >= end)
         break;
