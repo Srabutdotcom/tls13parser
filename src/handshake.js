@@ -214,9 +214,10 @@ export class _ClientHello {
       const end = this.#value.pos + length;
       while (true) {
          const code = this.#value.uint16();
-         const desc = this.#cipherEnums[code];
+         //const desc = this.#cipherEnums[code];
          this.ciphers.push(
-            `${uinToHex(code, 4)}-${desc}`,
+            code
+            //`${uinToHex(code, 4)}-${desc}`,
          );
          if (this.#value.pos >= end) break;
       }

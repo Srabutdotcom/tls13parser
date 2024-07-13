@@ -444,7 +444,6 @@ function extension(value) {
     const typeFull = extsfull[typeCode] ?? { name: typeCode };
     const length2 = value.uint16();
     exts[typeFull.name] = extsBase(typeCode, length2, value);
-    //console.dir(exts[typeFull.name]);
     if (value.pos >= end)
       break;
   }
