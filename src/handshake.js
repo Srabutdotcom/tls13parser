@@ -83,7 +83,7 @@ function extension(value) {
       const typeFull = extsfull[typeCode] ?? { name: typeCode };
       const length = value.uint16(); //*uint16
       exts[typeFull.name] = extsBase(typeCode, length, value);
-      console.dir(exts[typeFull.name]);
+      //console.dir(exts[typeFull.name]);
       if (value.pos >= end) break;
    }
    return exts
@@ -246,7 +246,7 @@ export class _ClientHello {
          const typeFull = extsfull[typeCode] ?? { name: typeCode };
          const length = this.value.uint16(); //*uint16
          this.extension[typeFull.name] = extsBase(typeCode, length, this);
-         console.log(this.extension[typeFull.name]);
+         //console.log(this.extension[typeFull.name]);
          if (this.#value.pos >= end) break;
       }
    }
