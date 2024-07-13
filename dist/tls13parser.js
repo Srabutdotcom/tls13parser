@@ -32,8 +32,9 @@ function getUint32(data, pos) {
 }
 var Uint8View = class extends Uint8Array {
   #pos = 0;
-  constructor(uint8Array) {
+  constructor(uint8Array, pos = 0) {
     super(uint8Array);
+    this.#pos = pos;
   }
   uint8() {
     const out = getUint8(this, this.#pos);
@@ -77,9 +78,9 @@ var Uint8View = class extends Uint8Array {
     this.#pos += uint;
   }
 };
-function ensureUint8View(value) {
+function ensureUint8View(value, pos) {
   if (value instanceof Uint8View == false)
-    return new Uint8View(value);
+    return new Uint8View(value, pos);
   return value;
 }
 function uinToHex(uint, length) {
@@ -672,8 +673,8 @@ var types = Object.freeze({
 var Record = class {
   // TLSPlainText
   #value;
-  constructor(value) {
-    this.#value = ensureUint8View(value);
+  constructor(value, pos) {
+    this.#value = ensureUint8View(value, pos);
     this.pos = this.#value.pos;
     const typeCode = this.#value.uint8();
     this.type = records[typeCode]?.name;
@@ -718,14 +719,13 @@ var records = Object.freeze({
   /* 255: 'Default' */
 });
 function Records(value) {
+  value = ensureUint8View(value);
   let records2 = [];
-  let _value = value.slice();
   while (true) {
-    const record = new Record(_value);
+    const record = new Record(value, value.pos);
     records2.push(record);
     if (record.value.pos >= value.length)
       break;
-    _value = record.value.slice();
   }
   return records2;
 }

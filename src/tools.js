@@ -51,8 +51,9 @@ export function getUint32(data, pos) {
 
 export class Uint8View extends Uint8Array {
    #pos = 0;
-   constructor(uint8Array) {
+   constructor(uint8Array, pos = 0) {
       super(uint8Array);
+      this.#pos = pos
    }
    uint8() {
       const out = getUint8(this, this.#pos);
@@ -81,12 +82,12 @@ export class Uint8View extends Uint8Array {
     */
    slice(length) {
       const copy = new Uint8Array(this.buffer)
-      const out = length!==undefined ? copy.slice(this.#pos, this.#pos + length) : copy.slice(this.#pos)
+      const out = length !== undefined ? copy.slice(this.#pos, this.#pos + length) : copy.slice(this.#pos)
       return out;
    }
-   sliceMovePos(length){
+   sliceMovePos(length) {
       const o = this.slice(length);
-      this.#pos+=length;
+      this.#pos += length;
       return o
    }
    get pos() { return this.#pos }
@@ -95,8 +96,8 @@ export class Uint8View extends Uint8Array {
    }
 }
 
-export function ensureUint8View(value){
-   if((value instanceof Uint8View)==false) return new Uint8View(value);
+export function ensureUint8View(value, pos) {
+   if ((value instanceof Uint8View) == false) return new Uint8View(value, pos);
    return value
 }
 

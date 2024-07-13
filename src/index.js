@@ -5,8 +5,8 @@ import { Uint8View, ensureUint8View, uinToHex } from "./tools.js";
 
 export class Record { // TLSPlainText
    #value
-   constructor(value) {
-      this.#value = ensureUint8View(value);//new Uint8View(value);
+   constructor(value, pos) {
+      this.#value = ensureUint8View(value, pos);//new Uint8View(value);
       this.pos = this.#value.pos;
       const typeCode = this.#value.uint8()
       this.type = records[typeCode]?.name;
@@ -82,13 +82,13 @@ var records = Object.freeze({//this.prototype.ContentTypes = {
 })
 
 export function Records(value) {
+   value = ensureUint8View(value);
    let records = []
-   let _value = value.slice();
+   
    while (true) {
-      const record = new Record(_value);
+      const record = new Record(value, value.pos);
       records.push(record);
       if (record.value.pos >= value.length) break
-      _value = record.value.slice();
    }
    return records;
 }
