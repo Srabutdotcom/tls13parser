@@ -231,7 +231,7 @@ function key_share(value) {
 function keyShareClientHello(value) {
    const payloadLength = value.uint16();
    const end = value.pos + payloadLength
-   const _keyShare = new Array(payloadLength);
+   const _keyShare = []//new Array(payloadLength);
    while (true) {
       _keyShare.push(keyShareEntry(value))
       if (value.pos >= end) break;
