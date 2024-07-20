@@ -28,6 +28,7 @@ export function Handshake(_value, length) {
    return {
       length: payloadLength,
       [typeFunc.name]: typeFunc(value, payloadLength),
+      value: value.slice(payloadLength)
    }
    //this[this.type] = clientHello(value, this.payloadLength) 
 }

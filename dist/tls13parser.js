@@ -414,7 +414,8 @@ function Handshake(_value, length) {
   const payloadLength = value.uint24();
   return {
     length: payloadLength,
-    [typeFunc.name]: typeFunc(value, payloadLength)
+    [typeFunc.name]: typeFunc(value, payloadLength),
+    value: value.slice(payloadLength)
   };
 }
 var cipherEnums = Object.freeze({
