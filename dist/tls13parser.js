@@ -415,7 +415,7 @@ function Handshake(_value, length) {
   return {
     length: payloadLength,
     [typeFunc.name]: typeFunc(value, payloadLength),
-    value: value.slice(payloadLength)
+    value
   };
 }
 var cipherEnums = Object.freeze({
