@@ -20,14 +20,12 @@ const handShakes = Object.freeze({
 export function Handshake(_value, pos) {
    const value = ensureUint8View(_value, pos)
    const typeCode = value.uint8();
-   const typeFunc = handShakes[typeCode];
-   if (!typeFunc || typeof typeCode == 'string') {
-      throw TypeError(`Unexpected type of record value ${typeCode}`);
-   }
+   const typeFunc = typeof handShakes[typeCode]=='string'? genericHandshake:handShakes[typeCode] ;
+   const name = typeof handShakes[typeCode]=='string' ? handShakes[typeCode]: typeFunc.name;
    const payloadLength = value.uint24(); // 24 bytes
    return {
       length: payloadLength,
-      [typeFunc.name]: typeFunc(value, payloadLength),
+      [name]: typeFunc(value, payloadLength, name),
       value
    }
    //this[this.type] = clientHello(value, this.payloadLength) 

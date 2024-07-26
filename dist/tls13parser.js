@@ -407,14 +407,12 @@ var handShakes = Object.freeze({
 function Handshake(_value, pos) {
   const value = ensureUint8View(_value, pos);
   const typeCode = value.uint8();
-  const typeFunc = handShakes[typeCode];
-  if (!typeFunc || typeof typeCode == "string") {
-    throw TypeError(`Unexpected type of record value ${typeCode}`);
-  }
+  const typeFunc = typeof handShakes[typeCode] == "string" ? genericHandshake : handShakes[typeCode];
+  const name = typeof handShakes[typeCode] == "string" ? handShakes[typeCode] : typeFunc.name;
   const payloadLength = value.uint24();
   return {
     length: payloadLength,
-    [typeFunc.name]: typeFunc(value, payloadLength),
+    [name]: typeFunc(value, payloadLength, name),
     value
   };
 }
@@ -593,6 +591,10 @@ function Finished(value, length) {
   return {
     verify_data
   };
+}
+function genericHandshake(value, length, type) {
+  value.type = type;
+  return value.sliceMovePos(length);
 }
 
 // src/alert.js
