@@ -17,8 +17,8 @@ const handShakes = Object.freeze({
    20: Finished,
 });
 
-export function Handshake(_value, length) {
-   const value = ensureUint8View(_value)
+export function Handshake(_value, pos) {
+   const value = ensureUint8View(_value, pos)
    const typeCode = value.uint8();
    const typeFunc = handShakes[typeCode];
    if (!typeFunc || typeof typeCode == 'string') {

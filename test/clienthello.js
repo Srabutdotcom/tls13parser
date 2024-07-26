@@ -17,3 +17,5 @@ function hexArrayStrtoBytes(hexArrayStr) {
 }
 
 const record = new Record(clientHello);
+const key_share = record.Handshake.ClientHello.extensions.key_share
+debugger;

@@ -404,8 +404,8 @@ var handShakes = Object.freeze({
   //RESERVED
   20: Finished
 });
-function Handshake(_value, length) {
-  const value = ensureUint8View(_value);
+function Handshake(_value, pos) {
+  const value = ensureUint8View(_value, pos);
   const typeCode = value.uint8();
   const typeFunc = handShakes[typeCode];
   if (!typeFunc || typeof typeCode == "string") {
