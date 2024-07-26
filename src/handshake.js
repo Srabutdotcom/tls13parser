@@ -331,3 +331,8 @@ function Finished(value, length) {
    }
 }
 
+function genericHandshake(value, length, type){
+   value.type = type;
+   return value.sliceMovePos(length);
+}
+
