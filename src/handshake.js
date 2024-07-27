@@ -88,7 +88,7 @@ function extension(value) {
    return exts
 }
 
-export function ServerHello(value, length) {
+export function ServerHello(value, length, type = 'server_hello') {
    value.type = 'server_hello'
    const versionCode = value.uint16();
    if (versionCode !== 0x0303) {
@@ -330,6 +330,7 @@ function Finished(value, length) {
 }
 
 function genericHandshake(value, length, type){
+   if(type == "HelloRequest")return ServerHello(value, length, type)
    value.type = type;
    return value.sliceMovePos(length);
 }
