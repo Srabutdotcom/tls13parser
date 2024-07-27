@@ -601,6 +601,17 @@ function genericHandshake(value, length, type) {
   value.type = type;
   return value.sliceMovePos(length);
 }
+function Handshakes(data) {
+  let handshake;
+  const msgs = [];
+  while (true) {
+    handshake = Handshake(data, handshake?.value?.pos ?? 0);
+    msgs.push(handshake);
+    if (handshake.value.pos + 1 >= data.length)
+      break;
+  }
+  return msgs;
+}
 
 // src/alert.js
 function Alert(value, length) {
@@ -738,6 +749,7 @@ function Records(value) {
 }
 export {
   Handshake,
+  Handshakes,
   Record,
   Records
 };
