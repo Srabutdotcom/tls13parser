@@ -282,7 +282,12 @@ function Certificate(value, length) {
    let len = value.uint8();
    const certificate_request_context = value.sliceMovePos(len);
    len = value.uint24();
-   const certificate_list = CertificateEntry(value, len)
+   const certificate_list = []
+   while(true){
+      certificate_list.push(CertificateEntry(value, len))
+      if(value.pos>=len)break
+   }
+   
    return {
       certificate_request_context,
       certificate_list//FIXME - 
