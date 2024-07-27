@@ -94,6 +94,7 @@ export function Records(value) {
 }
 
 export function parseDecrypted(decrypted){
+   decrypted = ensureUint8View(decrypted)
    const recordType = decrypted.at(decrypted.length-1);
    if(recordType == 22)return Handshakes(decrypted);
    const func = records[recordType]??false

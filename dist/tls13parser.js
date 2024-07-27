@@ -748,6 +748,7 @@ function Records(value) {
   return records2;
 }
 function parseDecrypted(decrypted) {
+  decrypted = ensureUint8View(decrypted);
   const recordType = decrypted.at(decrypted.length - 1);
   if (recordType == 22)
     return Handshakes(decrypted);
