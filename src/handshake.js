@@ -330,7 +330,7 @@ function Finished(value, length) {
 }
 
 function genericHandshake(value, length, type){
-   if(type == "HelloRequest")return ServerHello(value, length, type)
+   //if(type == "HelloRequest")return ServerHello(value, length, type)
    value.type = type;
    return value.sliceMovePos(length);
 }
