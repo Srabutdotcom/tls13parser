@@ -1,4 +1,4 @@
-import { Handshake } from "./handshake.js";
+import { Handshake, Handshakes } from "./handshake.js";
 import { Alert } from "./alert.js";
 import { Heartbeat } from "./heartbeat.js";
 import { Uint8View, ensureUint8View, uinToHex } from "./tools.js";
@@ -91,5 +91,13 @@ export function Records(value) {
       if (record.value.pos >= value.length) break
    }
    return records;
+}
+
+export function parseDecrypted(decrypted){
+   const recordType = decrypted.at(decrypted.length-1);
+   if(recordType == 22)return Handshakes(decrypted);
+   const func = records[recordType]??false
+   if(func)return func(decrypted);
+   throw Error(`Unknown code of record ${recordType}`)
 }
 

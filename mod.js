@@ -1,4 +1,4 @@
-export { Record, Records } from './src/index.js';
+export { Record, Records, parseDecrypted } from './src/index.js';
 export { Handshake, Handshakes } from './src/handshake.js';
 
 

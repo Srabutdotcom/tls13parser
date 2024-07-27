@@ -747,9 +747,19 @@ function Records(value) {
   }
   return records2;
 }
+function parseDecrypted(decrypted) {
+  const recordType = decrypted.at(decrypted.length - 1);
+  if (recordType == 22)
+    return Handshakes(decrypted);
+  const func = records[recordType] ?? false;
+  if (func)
+    return func(decrypted);
+  throw Error(`Unknown code of record ${recordType}`);
+}
 export {
   Handshake,
   Handshakes,
   Record,
-  Records
+  Records,
+  parseDecrypted
 };
