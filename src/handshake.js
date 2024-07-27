@@ -340,3 +340,13 @@ function genericHandshake(value, length, type){
    return value.sliceMovePos(length);
 }
 
+export function Handshakes(data) {
+   let handshake
+   const msgs = []
+   while (true) {
+      handshake = Handshake(data, handshake?.value?.pos ?? 0);
+      msgs.push(handshake)
+      if (handshake.value.pos + 1 >= data.length) break;
+   }
+   return msgs
+}
